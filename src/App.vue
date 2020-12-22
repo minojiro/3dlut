@@ -9,7 +9,14 @@
     <h2>target</h2>
     <ImageBox @setRgbs="setTargetRgbs" />
 
-    <h2>result</h2>
+    <h2>list</h2>
+    <!-- <p><button @click="addPoints">add</button></p> -->
+    <p>{{ rgbPairsStr.length }}</p>
+    <div class="list-wrap">
+      <ul>
+        <!-- <li v-for="(str,i) in rgbPairsStr" :key="i">{{str}}</li> -->
+      </ul>
+    </div>
     <p>
       <button
         :disabled="baseRgbs.length * targetRgbs.length === 0"
@@ -39,10 +46,12 @@ export default {
     }
   },
   computed: {
-    // outputJson() {
-    //   return generateFile()
-    //   // return JSON.stringify([{aa:'bb'}])
-    // },
+    rgbPairsStr() {
+      const fn = f => Math.floor(f * 100) / 100
+      return this.rgbPairs.map(p => (
+        `${fn(p[0])} ${fn(p[1])} ${fn(p[2])} => ${fn(p[3])} ${fn(p[4])} ${fn(p[5])}`
+      ))
+    },
     dlFname() {
       const d = new Date()
       const dateStr = [
@@ -86,5 +95,11 @@ export default {
 <style>
 h2 {
   border-bottom: 1px solid #e0e0e0;
+}
+.list-wrap {
+  height: 100px;
+  font-size: 10px;
+  border: 1px solid #e0e0e0;
+  overflow: scroll;
 }
 </style>

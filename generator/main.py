@@ -17,17 +17,17 @@ def calc(data, size):
   X = d[:,:3]
   Y = d[:,3:]
 
-  poly = PolynomialFeatures(degree=5)
+  poly = PolynomialFeatures(degree=3)
   model = make_pipeline(poly, Ridge())
   model.fit(X, Y)
 
   arr = []
   size_range = range(size)
-  sizeMinus1 = size - 1
+  size_minus1 = size - 1
   for b in size_range:
     for g in size_range:
       for r in size_range:
-        arr.append([r / sizeMinus1, g / sizeMinus1, b / sizeMinus1])
+        arr.append([r / size_minus1, g / size_minus1, b / size_minus1])
 
   arr = np.array(arr)
   result = np.array(model.predict(arr))
@@ -35,7 +35,7 @@ def calc(data, size):
   return result.tolist()
 
 def to_file_str(data, size, title, created_by):
-  tpl = Template('#Created by: "$created_by"\nTITLE "$title"\nLUT_3D_SIZE $size\nDOMAIN_MIN 0.0 0.0 0.0\nDOMAIN_MAX 1.0 1.0 1.0\n$lut_data')
+  tpl = Template('#Created by: $created_by\nTITLE "$title"\nLUT_3D_SIZE $size\nDOMAIN_MIN 0.0 0.0 0.0\nDOMAIN_MAX 1.0 1.0 1.0\n$lut_data')
   lut_data = ''
   for rgb in data:
     lut_data = lut_data + "\n" + ' '.join(map(str, rgb))
